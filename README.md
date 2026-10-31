@@ -18,10 +18,10 @@
 
 ## ☀️ Deskripsi Proyek
 
-**Solarnesia** adalah sistem pendukung keputusan spasial berbasis visualisasi grafis 2D yang memadukan data potensi radiasi surya (Global Solar Atlas), toleransi termal lingkungan, dan analisis kedekatan geometris permukiman di seluruh kepulauan Indonesia.
+**Solarnesia** adalah sistem pendukung keputusan spasial berbasis visualisasi grafis interaktif yang memadukan data potensi radiasi surya (Global Solar Atlas), toleransi termal lingkungan, dan analisis kedekatan geometris permukiman di seluruh kepulauan Indonesia.
 
 ### 🌟 Fitur Utama
-1. **Layer 1 (2D MultiPolygons & Choropleth):** Peta dasar daratan provinsi dan kabupaten terbuka (GeoJSON) dengan gradasi warna potensi radiasi surya tahunan (*Photovoltaic Power Output* / $PV_{OUT}$).
+1. **Layer 1 (2D MultiPolygons & Choropleth):** Peta dasar daratan 34 provinsi (GeoJSON) dengan gradasi warna potensi radiasi surya tahunan (*Photovoltaic Power Output* / $PV_{OUT}$) yang dapat diaktifkan melalui panel kontrol layer interaktif.
 2. **Layer 2 (0D Points & Buffers):**
    - **Pemotongan Spasial (*Spatial Clip*):** Mengeliminasi 1.160 titik laut, menyisakan 3.802 titik darat murni.
    - **Seleksi Tapak PLTS:** Menyaring 513 kandidat tapak potensial ($PV_{OUT} \ge 1.430\text{ kWh/kWp}$, $\text{TEMP} \le 27,5^\circ\text{C}$).
@@ -30,7 +30,7 @@
 3. **Analisis Keterjangkauan (*Spatial Join*):**
    - Menguji 3.289 titik demand permukiman darat: **325 permukiman (9,9%)** terjangkau dalam koridor 25 km, sedangkan **2.964 titik (90,1%)** berada di luar jangkauan (membuktikan perlunya sistem PLTS mikrogrid mandiri/kabel laut di pulau terpencil).
    - Menjangkau **294 kabupaten/kota** dari total 519 daerah di Indonesia.
-4. **Inspeksi Interaktif (*Clickable Map*):** Peta interaktif berbasis Folium/Leaflet yang memungkinkan pengguna mengklik titik manapun (contoh: Bali Selatan) untuk melihat informasi $PV_{OUT}$, temperatur, dan daftar lengkap kecamatan/kabupaten yang masuk dalam radius 25 km.
+4. **Peta Interaktif Inline (*Interactive Visualizer*):** Visualisasi berbasis Folium/Leaflet yang dirender langsung di dalam sel notebook tanpa ketergantungan berkas eksternal. Mendukung multi-layer toggle (Layer 1 Koroplet Provinsi, Koridor 25 km, Titik Terjangkau, Titik Belum Terjangkau, dan Inspeksi Klik Titik PLTS).
 
 ---
 
@@ -48,17 +48,14 @@
 
 ```text
 Solarnesia_AFL2/
-├── solarnesia_afl2.ipynb                     # Notebook utama (12 sel terstruktur top-to-bottom)
+├── solarnesia_afl2.ipynb                     # Notebook utama (11 sel terstruktur mandiri)
 ├── solarnesia_code_architecture_plan.md      # Dokumen arsitektur dan spesifikasi teknis
-├── data/
-│   ├── indonesia_solar_data.csv              # 4.962 titik observasi Global Solar Atlas
-│   ├── indonesia_provinces.geojson           # Batas poligon 34 provinsi (Layer 1)
-│   └── indonesia_kabupaten.geojson           # Batas poligon 519 kabupaten/kota (Spatial join)
-└── outputs/
-    ├── solarnesia_coverage_map.png           # Gambar publikasi 2D resolusi tinggi
-    ├── solarnesia_interactive_map.html       # Peta web interaktif (inspeksi klik)
-    ├── solarnesia_table1_summary.csv         # Ringkasan data metrik Tabel 1
-    └── solarnesia_covered_kabupaten.csv      # Daftar 294 kabupaten/kota terlayani
+├── README.md                                 # Dokumentasi proyek & instruksi eksekusi
+├── requirements.txt                          # Dependensi pustaka Python
+└── data/
+    ├── indonesia_solar_data.csv              # 4.962 titik observasi Global Solar Atlas
+    ├── indonesia_provinces.geojson           # Batas poligon 34 provinsi (Layer 1)
+    └── indonesia_kabupaten.geojson           # Batas poligon 519 kabupaten/kota (Spatial join)
 ```
 
 ---
@@ -68,10 +65,10 @@ Solarnesia_AFL2/
 ### Prasyarat
 Pastikan Python 3.10+ telah terpasang dengan pustaka berikut:
 ```bash
-pip install geopandas pandas matplotlib shapely scikit-learn folium mapclassify
+pip install -r requirements.txt
 ```
 
 ### Eksekusi Notebook
-1. Buka `solarnesia_afl2.ipynb` menggunakan **Jupyter Notebook**, **JupyterLab**, atau **VS Code**.
+1. Buka `solarnesia_afl2.ipynb` menggunakan **VS Code**, **JupyterLab**, atau **Jupyter Notebook**.
 2. Jalankan sel dari atas ke bawah (*Run All*).
-3. Buka `outputs/solarnesia_interactive_map.html` di peramban web untuk menjelajahi peta interaktif.
+3. Sel 8 akan menampilkan ringkasan data Tabel 1, dan Sel 9 akan langsung menampilkan peta interaktif di dalam layar kerja.
